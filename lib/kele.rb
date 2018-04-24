@@ -3,7 +3,6 @@ require 'json'
 class Kele
   include HTTParty, JSON
   base_uri 'https://www.bloc.io/api/v1'
-  attr_reader :auth_token
 
   def initialize(e, p)
     response = self.class.post('/sessions', body: {email: e, password: p  } )
@@ -19,7 +18,18 @@ class Kele
     if response.code == 404 
       raise 'Sorry something went wrong..'
     else
-      @user_data = parse(response.body)
+      @user_data = parse(response.body)  
     end
   end 
+
+  def get_mentor_availability(mentor_id)
+    url = '/mentors/'+ mentor_id.to_s + '/student_availability'
+    response = self.class.get(url, body: {'id' => mentor_id}, headers: { 'authorization' => @auth_token}  )
+    if response.code == 404 
+      raise 'Sorry something went wrong..'
+    else
+      @mentor_availibility = parse(response.body)
+    end
+  end 
+
 end  
