@@ -1,0 +1,9 @@
+class Kele
+  include HTTParty
+  base_uri 'https://www.bloc.io/api/v1/sessions'
+
+  def intialize(u, p)
+    @auth = {username: u, password: p}
+  end 
+   
+end 
