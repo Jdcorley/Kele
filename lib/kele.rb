@@ -1,7 +1,8 @@
 require 'httparty'
 require 'json'
+require_relative 'roadmap.rb'
 class Kele
-  include HTTParty, JSON
+  include HTTParty, JSON, Roadmap 
   base_uri 'https://www.bloc.io/api/v1'
 
   def initialize(e, p)
@@ -31,5 +32,4 @@ class Kele
       @mentor_availibility = parse(response.body)
     end
   end 
-
 end  
