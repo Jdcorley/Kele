@@ -20,4 +20,13 @@ module Roadmap
     end 
   end 
 
-end 
+  def get_remaining_checkpoints(chain_id)
+    url = '/enrollment_chains/'+ chain_id.to_s + '/checkpoints_remaining_in_section'
+    response = self.class.get(url, body: {'id' => chain_id}, headers: { 'authorization' => @auth_token} )
+    if response.code == 404 
+      raise 'Sorry something went wrong..'
+    else 
+      @remaining_checkpoints = parse(response.body)
+    end 
+  end 
+end

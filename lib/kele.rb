@@ -32,5 +32,5 @@ class Kele
     else
       @mentor_availibility = parse(response.body)
     end
-  end 
+  end
 end  
