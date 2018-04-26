@@ -13,12 +13,21 @@ module Messages
     end
   end 
 
-  def create_message(email, recipient_id, subject, message )
-    response = self.class.post('/messages', body: { 'sender' => email, 
-                                                    'recipient_id' => recipient_id,
-                                                    'subject' => subject,
-                                                    'stripped-text' => message },
-                                         headers: { 'authorization' => @auth_token } )
+  def create_message(email, recipient_id, thread_token = nil, subject, message )
+    if thread_token == nil
+      response = self.class.post('/messages', body: { 'sender' => email, 
+                                                      'recipient_id' => recipient_id,
+                                                      'subject' => subject,
+                                                      'stripped-text' => message },
+                                           headers: { 'authorization' => @auth_token } )
+    else 
+      response = self.class.post('/messages', body: { 'sender' => email, 
+                                                      'recipient_id' => recipient_id,
+                                                      'token' => thread_token,
+                                                      'subject' => subject,
+                                                      'stripped-text' => message },
+                                           headers: { 'authorization' => @auth_token } )
+    end 
     if response.code == 404 
       raise 'Invalid email or password.'
     else 
